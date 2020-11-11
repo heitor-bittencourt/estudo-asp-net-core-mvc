@@ -9,20 +9,27 @@ namespace WebVendasMvc.Models
     public class Vendedor
     {
         public int Id { get; set; }
+
         [Display(Name ="Nome")]
+        [Required(ErrorMessage ="Nome obrigatório")]
+        [StringLength(60, MinimumLength = 3, ErrorMessage ="Tamanho do nome deve se entre {2} e {1} caracteres")]
         public string Name { get; set; }
 
         [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Digite um email válido")]
+        [Required(ErrorMessage = "{0} obrigatório")]
         public string Email { get; set; }
 
         [Display(Name ="Data de Nascimento")]
+        [Required(ErrorMessage = "{0} obrigatório")]
         [DataType(DataType.Date)]
         /*Não é necessário utilizar esse display nesse formato, pois estamos utilizando a localização pt-BR
-         * [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-         */
+         * [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]*/         
         public DateTime DataAniversario { get; set; }
 
-        [Display(Name ="Salário Base")]
+        [Required(ErrorMessage = "{0} obrigatório")]
+        [Range(100.00, 50000.00, ErrorMessage ="{0} deve ser entre {1} e {2}")]
+        [Display(Name ="Salário Base")]        
         [DisplayFormat(DataFormatString ="{0:F2}")]
         public double SalarioBase { get; set; }
         public Departamento Departamento { get; set; }

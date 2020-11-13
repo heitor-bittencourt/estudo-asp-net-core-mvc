@@ -1,7 +1,10 @@
 ﻿using System;
+using WebVendasMvc.Models;
 using System.Collections.Generic;
 using System.Linq;
-using WebVendasMvc.Models;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace WebVendasMvc.Services
 {
@@ -15,9 +18,14 @@ namespace WebVendasMvc.Services
             _context = context;
         }
 
-        public List<Departamento> FindAll()
+        //Método de processamento síncrono
+        /*public List<Departamento> FindAll()
         {
             return _context.Departamento.OrderBy(x => x.Nome).ToList();
+        }*/
+        public async Task<List<Departamento>> FindAllAsync()
+        {
+            return await _context.Departamento.OrderBy(x => x.Nome).ToListAsync();
         }
     }
 }

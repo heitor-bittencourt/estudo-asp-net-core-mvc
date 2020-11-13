@@ -65,12 +65,20 @@ namespace WebVendasMvc.Controllers
 
             return View(obj);           
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _vendedorService.RemoveAsync(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _vendedorService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegrityException e)
+            {
+                return RedirectToAction(nameof(Erro), new { mensagem = e.Message });
+            }
         }
 
         public async Task<IActionResult> Detalhes(int? id)

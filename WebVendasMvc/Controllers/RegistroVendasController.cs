@@ -39,9 +39,22 @@ namespace WebVendasMvc.Controllers
             return View(resultado);
         }
 
-        public IActionResult BuscaGrupo()
+        public async Task<IActionResult> BuscaGrupo(DateTime? minData, DateTime? maxData)
         {
-            return View();
+            if (!minData.HasValue)
+            {
+                minData = new DateTime(DateTime.Now.Year, 1, 1);
+            }
+            if (!maxData.HasValue)
+            {
+                maxData = DateTime.Now;
+            }
+
+            ViewData["minData"] = minData.Value.ToString("yyyy-MM-dd");
+            ViewData["maxData"] = maxData.Value.ToString("yyyy-MM-dd");
+
+            var resultado = await _registroVendasService.FindByDateGroupingAsync(minData, maxData);
+            return View(resultado);
         }
     }
 }
